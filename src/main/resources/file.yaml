@@ -8,8 +8,6 @@ seq:
     type: f4
   - id: temperature
     type: f4
-    multiplier: 80
-    offset: -3044
   - id: battery
     type: u1
 

@@ -41,6 +41,9 @@ public class Main {
         yamlPath.getParent().register(watchService, StandardWatchEventKinds.ENTRY_MODIFY);
 
         new Thread(() -> {
+
+            long lastReload = 0;
+
             while (true) {
                 try {
                     WatchKey key = watchService.take();
@@ -49,9 +52,16 @@ public class Main {
                         Path changed = (Path) event.context();
                         if (changed.equals(yamlPath.getFileName())) {
 
-                            Thread.sleep(150); //important
+                            long now = System.currentTimeMillis();
 
+                            if (now - lastReload < 500) {
+                                continue;
+                            }
+
+                            lastReload = now;
+                            Thread.sleep(150); //important
                             boolean success = parser.reload();
+
                             if (success) {
                                 System.out.print("Enter HEX message: ");
                             }
@@ -61,10 +71,9 @@ public class Main {
                     key.reset();
 
                 } catch (Exception e) {
-                   System.out.println("Error: " + e.getMessage());
+                    System.out.println("Error: " + e.getMessage());
                 }
             }
 
         }).start();
-    }
-}
+    }}

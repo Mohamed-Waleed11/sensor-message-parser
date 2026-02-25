@@ -15,7 +15,6 @@ import java.util.*;
 public class ParsingService {
 
     private RootDefinition definition;
-    private final ObjectMapper mapper = new ObjectMapper();
     private final Path yamlPath;
 
     final String RED = "\u001B[31m";
@@ -29,8 +28,7 @@ public class ParsingService {
         try {
             this.definition = loadAndValidate();
         } catch (Exception e) {
-            System.out.println(RED + "✖ YAML configuration error:" + RESET);
-            System.out.println(RED + e.getMessage() + RESET);
+            System.out.println(RED + "✖ YAML configuration error:" +  e.getMessage() + RESET);
             throw new RuntimeException("Invalid startup configuration", e);
         }
     }
@@ -52,13 +50,15 @@ public class ParsingService {
 
         try {
             this.definition = loadAndValidate();
+            System.out.println();
             System.out.println(GREEN + "✔ Parser configuration successfully reloaded." + RESET);
             return true;
 
         } catch (Exception e) {
-            System.out.println(RED + "✖ YAML configuration error:" + RESET);
-            System.out.println(RED + e.getMessage() + RESET);
+            System.out.println();
+            System.out.println(RED + "✖ YAML configuration error:" + e.getMessage() + RESET);
             System.out.println(YELLOW + "⚠ Defaulting to previous parser configuration." + RESET);
+            System.out.print("Enter HEX message: ");
             return false;
         }
     }
@@ -200,11 +200,8 @@ public class ParsingService {
     private Object readFloat(ByteBuffer buffer, int size) {
 
         return switch (size) {
-
             case 4 -> buffer.getFloat();
-
             case 8 -> buffer.getDouble();
-
             default -> throw new IllegalArgumentException("Unsupported float size: " + size);
         };
     }
