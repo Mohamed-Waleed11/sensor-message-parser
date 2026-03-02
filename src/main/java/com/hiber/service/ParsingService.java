@@ -97,7 +97,7 @@ public class ParsingService {
 
         type = type.toLowerCase();
 
-        if (!type.matches("[uif][1248]")) {
+        if (!type.matches("[usf][1248]")) {
             throw new IllegalArgumentException(
                     "Invalid type '" + type + "' for field: " + fieldId
             );
@@ -112,7 +112,7 @@ public class ParsingService {
                     throw new IllegalArgumentException("Unsupported unsigned size in " + fieldId);
                 }
             }
-            case 'i' -> {
+            case 's' -> {
                 if (!(size == 1 || size == 2 || size == 4 || size == 8)) {
                     throw new IllegalArgumentException("Unsupported signed size in " + fieldId);
                 }
