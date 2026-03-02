@@ -156,7 +156,7 @@ public class ParsingService {
 
             Object value = switch (baseType) {
                 case 'u' -> readUnsigned(buffer, size);
-                case 'i' -> readSigned(buffer, size);
+                case 's' -> readSigned(buffer, size);
                 case 'f' -> readFloat(buffer, size);
                 default -> throw new IllegalArgumentException("Unsupported type: " + type);
             };
